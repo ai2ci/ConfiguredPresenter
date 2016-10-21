@@ -26,7 +26,7 @@ trait BaseConfiguredTrait
     {
         parent::__construct();
 
-        $storage = new Nette\Caching\Storages\FileStorage(__DIR__ . '/../../temp');
+        $storage = new Nette\Caching\Storages\FileStorage('temp');
         $this->_cache = new Nette\Caching\Cache($storage);
     }
     

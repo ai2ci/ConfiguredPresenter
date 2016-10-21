@@ -8,6 +8,7 @@
     ],
     "require": {
 		"php": ">=5.6.0",
+        "nette/caching": "dev-master",
         "nette/di": "dev-master",
         "nette/neon": "dev-master"
     },

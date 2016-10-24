@@ -28,3 +28,6 @@ before_install:
   - composer require "nette/neon:${NETTE_VERSION}" --no-update
 
 install: composer update --prefer-source --no-interaction --dev
+
+before_script:
+    - phpenv config-rm xdebug.ini || true

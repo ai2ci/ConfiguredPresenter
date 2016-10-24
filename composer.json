@@ -17,6 +17,7 @@
 	},
 	"minimum-stability": "stable",
     "require-dev": {
-        "phpunit/phpunit": "dev-master"
+        "phpunit/phpunit": ">4.8.20 <6.0",
+        "codeception/codeception": "dev-master"
     }
 }

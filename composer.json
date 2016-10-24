@@ -18,6 +18,6 @@
 	"minimum-stability": "stable",
     "require-dev": {
         "phpunit/phpunit": "~4.0 || ~6.0",
-        "codeception/codeception": "~dev-master"
+        "codeception/codeception": ">1.0"
     }
 }

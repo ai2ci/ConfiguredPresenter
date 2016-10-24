@@ -8,7 +8,7 @@ php:
 #  - 'nightly'
   
 env:
-  - NETTE_VERSION='~2.0'
+  - NETTE_VERSION='2.1'
   
 matrix:
   include:

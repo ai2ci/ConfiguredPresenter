@@ -17,6 +17,6 @@
 	},
 	"minimum-stability": "stable",
     "require-dev": {
-        "phpunit/phpunit": "stable"
+        "phpunit/phpunit": "dev-master"
     }
 }

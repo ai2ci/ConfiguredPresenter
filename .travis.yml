@@ -8,6 +8,7 @@ php:
   
 env:
   - NETTE_VERSION='dev-master'
+  - PHPUNIT_VERSION='dev-master'
   
 matrix:
   include:

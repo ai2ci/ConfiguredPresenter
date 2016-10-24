@@ -8,7 +8,6 @@ php:
   
 env:
   - NETTE_VERSION='dev-master'
-  - PHPUNIT_VERSION='dev-master'
   
 matrix:
   include:
@@ -17,17 +16,15 @@ matrix:
 #    - php: 5.6
 #      env: NETTE_VERSION=2.2
     - php: 5.6
-      env: NETTE_VERSION=2.1,PHPUNIT_VERSION='dev-master'
+      env: NETTE_VERSION=2.1
     - php: 5.6
-      env: NETTE_VERSION=2.2,PHPUNIT_VERSION='dev-master'
+      env: NETTE_VERSION=2.2
     - php: 5.6
-      env: NETTE_VERSION=2.3,PHPUNIT_VERSION='dev-master'
+      env: NETTE_VERSION=2.3
     - php: 5.6
-      env: NETTE_VERSION=2.4,PHPUNIT_VERSION='dev-master'
+      env: NETTE_VERSION=2.4
     - php: 5.6
-      env: NETTE_VERSION='dev-master',PHPUNIT_VERSION='dev-master'
-    - php: 5.4
-      env: PHPUNIT_VERSION=4.8
+      env: NETTE_VERSION='dev-master'
       
 before_install:
   - composer require "nette/caching:${NETTE_VERSION}" --no-update

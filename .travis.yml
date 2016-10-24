@@ -19,9 +19,7 @@ matrix:
     env: NETTE_VERSION=2.4
     
 before_install:
-  - composer require "nette/caching:${NETTE_VERSION}" --no-update
-  - composer require "nette/di:${NETTE_VERSION}" --no-update
-  - composer require "nette/neon:${NETTE_VERSION}" --no-update
+  - composer require "nette/nette:${NETTE_VERSION}" --no-update
 
 install: composer update --prefer-source --no-interaction --dev
 

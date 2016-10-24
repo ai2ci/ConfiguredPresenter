@@ -7,11 +7,20 @@ php:
 - '7.0'
 #- 'nightly'
 env: 
+- NETTE_VERSION=2.1
 - NETTE_VERSION=2.2
 - NETTE_VERSION=2.3
 - NETTE_VERSION=2.4
-- NETTE_VERSION=2.5
-      
+
+matrix:
+  exclude:      
+  - php: 5.4
+    env: 
+    - NETTE_VERSION=2.4
+  - php: 5.5
+    env: 
+    - NETTE_VERSION=2.4
+    
 before_install:
   - composer require "nette/caching:${NETTE_VERSION}" --no-update
   - composer require "nette/di:${NETTE_VERSION}" --no-update

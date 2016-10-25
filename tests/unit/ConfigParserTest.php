@@ -1,3 +1,4 @@
+
 <?php
 
 use BaseConfigured\ConfigParser;
@@ -7,7 +8,7 @@ use BaseConfigured\ConfigParser;
  *
  * @author chlad
  */
-class ConfigParserTest extends Codeception\Test\Unit
+class ConfigParserTest extends \PHPUnit_Framework_TestCase
 {
 
     protected function setUp()

@@ -1,23 +1,16 @@
 <?php
 
-namespace \BaseConfigured;
-
-use Nette;
-use Nette\DI;
+namespace BaseConfigured;
 
 /**
  * Base presenter for all application presenters.
  */
-trait BaseConfiguredTrait
+trait BaseConfiguredTrait 
 {
 
     public $__BASE_NAME = 'Base';
     public $__CACHE_NAME = 'base-configured-pages';
     public $__data = [];
-    public $__confData = [];
-
-    /** @var Nette\Caching\Cache */
-    public $_cache;
 
     /** @var array */
     public $__countedRequest = [];
@@ -25,16 +18,13 @@ trait BaseConfiguredTrait
     public function __construct()
     {
         parent::__construct();
-
-        $storage = new Nette\Caching\Storages\FileStorage('temp');
-        $this->_cache = new Nette\Caching\Cache($storage);
     }
     
-    public function getConfiguredName()
+    public function getConfName()
     {
         return $this->getName();
     }
-    public function getConfiguredAction()
+    public function getConfAction()
     {
         return $this->getAction();
     }
@@ -42,97 +32,18 @@ trait BaseConfiguredTrait
     public function startup()
     {
         parent::startup();
-        $this->__loadConfig();
+        $config = ConfigLoader::loadConfig();
         # import base configuration
-        $this->__importVariables(['Base']);
+        $this->__initVariables($config['Base']);
         # import current action configuration
-        $this->__importVariables([$this->getConfiguredName(), $this->getConfiguredAction()]);
+        $this->__initVariables($config[$this->getConfName()][$this->getConfAction()]);
+        
         $counter = $this->_countOfBeenHere();
+        
         # import beenHere current action configuration 
         if ($counter > 0)
         {
-            $this->__importVariables([$this->getConfiguredName(), $this->getConfiguredAction(), "onBeenHere"]);
-//            $this->__importVariables([$this->getName(), $this->getAction(), "onBeenHere{$counter}"]);
-        }
-    }
-
-    /**
-     * 
-     * @params array path indexes
-     * @return mixin
-     */
-    private function __importVariables($params)
-    {
-        $value = $this->__getInheritedVariable($params) ? : [];
-
-        foreach ($value as $key => $val)
-        {
-            # value simply defined
-            $this->{$key} = $val;
-        }
-    }
-
-    /**
-     * 
-     * @params array path indexes
-     * @return mixin
-     */
-    private function &__getInheritedVariable($params, &$originData = null)
-    {
-        $value = ($originData ? : $this->__confData);
-        foreach ($params as $param)
-        {
-            # value simply defined
-            $value = &$value[$param];
-            # check inheriting
-            $parent = DI\Config\Helpers::takeParent($value);
-            # overwrite inherited value
-            if ($parent)
-            {
-                $inherited = $this->__getInheritedVariable(explode('.', $parent),$originData);
-                $value = DI\Config\Helpers::merge($inherited, $value);
-            }
-        }
-        return $value;
-    }
-    
-    /**
-     * resolve inheritance setting value
-     */
-    private function _recursivelyResolve(&$data, &$originData)
-    {
-        foreach ($data as $key => $value)
-        {
-            # check inheriting
-            $parent = DI\Config\Helpers::takeParent($value);
-            # overwrite inherited value
-            if ($parent)
-            {
-                $inherited = $this->__getInheritedVariable(explode('.', $parent), $originData);
-                $data[$key] = DI\Config\Helpers::merge($inherited, $value);
-            }
-            if (is_array($data[$key])) 
-            {
-                $this->_recursivelyResolve($data[$key], $originData);
-            }
-        }
-    }
-
-    /**
-     * load config
-     */
-    private function __loadConfig()
-    {
-        $file = __DIR__ . '/../config/pages.neon';
-        $this->__confData = $this->_cache->load($this->__CACHE_NAME);
-        if ($this->__confData === null)
-        {
-            $loader = new DI\Config\Loader();
-            $helper = new DI\Config\Helpers();
-            $this->__confData = $loader->load($file);
-            # resolve inheritance etc ...
-            $this->_recursivelyResolve($this->__confData, $this->__confData);
-            $this->_cache->save($this->__CACHE_NAME, $this->__confData);
+            $this->__importVariables($config[$this->getConfName()][$this->getConfAction()]["onBeenHere"]);
         }
     }
 
@@ -143,7 +54,6 @@ trait BaseConfiguredTrait
             case 'template':
 
                 return parent::__get($name);
-                break;
 
             default:
                 if (!property_exists($this, $name))
@@ -213,5 +123,14 @@ trait BaseConfiguredTrait
         }
         return $count;
     }
-    
+
+    public function __initVariables($value)
+    {
+        foreach ($value as $key => $val)
+        {
+            # value simply defined
+            $this->{$key} = $val;
+        }
+    }
+
 }

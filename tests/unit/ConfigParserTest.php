@@ -1,7 +1,7 @@
 
 <?php
 
-use BaseConfigured\ConfigParser;
+use ConfiguredPresenters\ConfigParser;
 
 /**
  * test of ConfigParserTest
@@ -18,7 +18,7 @@ class ConfigParserTest extends \PHPUnit_Framework_TestCase
         $this->path = "1.{$this->testedKey}";
         $this->reSetUp();
     }
-    
+
     protected function reSetUp()
     {
         $this->arrayFull = [
@@ -41,13 +41,11 @@ class ConfigParserTest extends \PHPUnit_Framework_TestCase
         $result = ConfigParser::__getInheritedVariable(explode('.', $this->path), $this->arrayFull);
         $this->assertEquals($this->testedValue, $result);
     }
-    
+
     public function testCallrecursiveResolveVariableAssert()
     {
         $this->reSetUp();
         ConfigParser::recursiveResolve($this->arrayFull, $this->arrayFull);
         $this->assertEquals($this->testedValue, $this->arrayFull[2][$this->testedKey]);
     }
-    
-
 }

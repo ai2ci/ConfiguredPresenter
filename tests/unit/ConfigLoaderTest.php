@@ -1,6 +1,6 @@
 <?php
 
-use BaseConfigured\ConfigLoader;
+use ConfiguredPresenters\ConfigLoader;
 
 /**
  * test of ConfigParserTest
@@ -14,6 +14,7 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
     {
         
     }
+
     protected function tearDown()
     {
         
@@ -25,10 +26,12 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertDirectoryExists(ConfigLoader::CACHE_TEMP);
     }
+
     public function testDirectoryWritable()
     {
         $this->assertDirectoryIsWritable(ConfigLoader::CACHE_TEMP);
     }
+
     public function testloadConfig()
     {
         $file = 'page.neon';

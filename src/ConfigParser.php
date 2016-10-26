@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace BaseConfigured;
+namespace ConfiguredPresenters;
 
 use Nette\DI\Config\Helpers;
 
@@ -17,51 +17,46 @@ use Nette\DI\Config\Helpers;
  */
 class ConfigParser
 {
-    
+
     /**
      * returns value in the end of the path
      * @params array path indexes
      * @params array data
      * @return mixin
      */
-    public static function &__getInheritedVariable(array $params, array &$originData = null)
+    public static function &getInheritedVariable(array $params, array &$originData = null)
     {
-        $value = &$originData; 
-        foreach ($params as $param)
-        {
+        $value = &$originData;
+        foreach ($params as $param) {
             # value simply defined
             $value = &$value[$param];
             # check inheriting
             $parent = Helpers::takeParent($value);
             # overwrite inherited value
-            if ($parent)
-            {
-                $inherited = self::__getInheritedVariable(explode('.', $parent),$originData);
+            if ($parent) {
+                $inherited = self::getInheritedVariable(explode('.', $parent), $originData);
                 $value = Helpers::merge($inherited, $value);
             }
         }
         return $value;
     }
-    
+
     /**
      * resolves inheritance setting values in $data array
      * @param array $data
      * @param arrray $originData
      */
-    public static function recursiveResolve(array &$data,array &$originData)
+    public static function recursiveResolve(array &$data, array &$originData)
     {
-        foreach ($data as $key => $value)
-        {
+        foreach ($data as $key => $value) {
             # check inheriting
             $parent = Helpers::takeParent($value);
             # overwrite inherited value
-            if ($parent)
-            {
-                $inherited = self::__getInheritedVariable(explode('.', $parent), $originData);
+            if ($parent) {
+                $inherited = self::getInheritedVariable(explode('.', $parent), $originData);
                 $data[$key] = Helpers::merge($inherited, $value);
             }
-            if (is_array($data[$key])) 
-            {
+            if (is_array($data[$key])) {
                 self::recursiveResolve($data[$key], $originData);
             }
         }

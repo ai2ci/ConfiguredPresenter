@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace BaseConfigured;
+namespace ConfiguredPresenters;
 
 use \Nette\DI\Config\Loader;
 use \Nette\Caching\Cache;
@@ -19,20 +19,19 @@ use \Nette\Caching\Storages\FileStorage;
  */
 class ConfigLoader
 {
-    
     const CACHE_NAME = 'config';
     const CACHE_TEMP = 'temp';
+
     /**
      * load config
      */
-    public static function loadConfig($path, $cacheDirectory=self::CACHE_TEMP)
+    public static function loadConfig($path, $cacheDirectory = self::CACHE_TEMP)
     {
         $storage = new FileStorage($cacheDirectory);
         $cache = new Cache($storage);
-        
+
         $confData = $cache->load(static::CACHE_NAME);
-        if ($confData === null)
-        {
+        if ($confData === null) {
             $loader = new Loader();
             $confData = $loader->load($path);
             # resolve inheritance etc ...
@@ -41,6 +40,5 @@ class ConfigLoader
         }
         return $confData;
     }
-    
-    
+
 }

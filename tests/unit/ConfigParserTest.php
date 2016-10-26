@@ -38,7 +38,7 @@ class ConfigParserTest extends \PHPUnit_Framework_TestCase
     public function testCallgetInheritedVariableAssert()
     {
         $this->reSetUp();
-        $result = ConfigParser::__getInheritedVariable(explode('.', $this->path), $this->arrayFull);
+        $result = ConfigParser::getInheritedVariable(explode('.', $this->path), $this->arrayFull);
         $this->assertEquals($this->testedValue, $result);
     }
 

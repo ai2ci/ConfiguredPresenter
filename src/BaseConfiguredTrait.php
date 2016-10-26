@@ -1,15 +1,17 @@
 <?php
 
-namespace BaseConfigured;
+namespace ConfiguredPresenters;
 
 /**
  * Base presenter for all application presenters.
  */
-trait BaseConfiguredTrait 
-{
 
-    public $__BASE_NAME = 'Base';
-    public $__CACHE_NAME = 'base-configured-pages';
+const BASE_CONFIGURED_SECTION = 'Base';
+const BEEN_HERE_CONFIGURED_SECTION = 'onBeenHere';
+const TEMPLATE_SECTION = 'onBeenHere';
+trait BaseConfiguredTrait
+{
+    /** @var array class variable source */
     public $__data = [];
 
     /** @var array */
@@ -19,11 +21,12 @@ trait BaseConfiguredTrait
     {
         parent::__construct();
     }
-    
+
     public function getConfName()
     {
         return $this->getName();
     }
+
     public function getConfAction()
     {
         return $this->getAction();
@@ -32,36 +35,34 @@ trait BaseConfiguredTrait
     public function startup()
     {
         parent::startup();
+        #init local variables
+        $name = $this->getConfName();
+        $action = $this->getConfAction();
         $config = ConfigLoader::loadConfig();
+        $counter = new VisitCounter($name, $action);
+        
         # import base configuration
-        $this->__initVariables($config['Base']);
+        $this->initVariables($config[BASE_CONFIGURED_SECTION]);
         # import current action configuration
-        $this->__initVariables($config[$this->getConfName()][$this->getConfAction()]);
-        
-        $counter = $this->_countOfBeenHere();
-        
+        $this->initVariables($config[$name][$action]);
         # import beenHere current action configuration 
-        if ($counter > 0)
-        {
-            $this->__importVariables($config[$this->getConfName()][$this->getConfAction()]["onBeenHere"]);
+        if ($counter->countOfBeenHere() > 0) {
+            $this->initVariables($config[$name][$action][BEEN_HERE_CONFIGURED_SECTION]);
         }
     }
 
     public function &__get($name)
     {
-        switch ($name)
-        {
-            case 'template':
+        switch ($name) {
+            case TEMPLATE_SECTION:
+            case BEEN_HERE_CONFIGURED_SECTION:
 
                 return parent::__get($name);
 
             default:
-                if (!property_exists($this, $name))
-                {
+                if (!property_exists($this, $name)) {
                     return $this->__data[$name];
-                }
-                else
-                {
+                } else {
                     return parent::__get($name);
                 }
                 break;
@@ -73,64 +74,13 @@ trait BaseConfiguredTrait
         $this->__data[$name] = $value;
     }
 
-    /**
-     * default cookie name
-     * @return string
-     */
-    protected function _getCookieName($cookieName = null)
-    {
-        # automatic cookie name
-        if ($cookieName === null)
-        {
-            $cookieName = implode("-",[ 'configured', $this->getName(), $this->getAction(), "been-here"]);
-        }
-        return $cookieName;
-    }
 
-    /**
-     * return count of been here
-     * @param string $cookieName
-     * @return int
-     */
-    protected function _countOfBeenHere($cookieName = null)
+    public function initVariables($array)
     {
-        $count = 0;
-        $beenHere = @$_GET['beenHere'];
-        # forced from URL
-        if (isset($beenHere))
-        {
-            $count = intval($beenHere);
-        }
-        # normally from cookie
-        else
-        {
-            $cookieName = $this->_getCookieName($cookieName);
-            
-            # if has been set then directly get value
-            if (isset($this->__countedRequest[$cookieName]))
-            {
-                $count = $this->__countedRequest[$cookieName];
-            }
-            # inrease value
-            else
-            {
-                $count = $this->getHttpRequest()->getCookie($cookieName) ? : 0;
-                $count++;
-                $this->getHttpResponse()->setCookie($cookieName, $count, time() + 3600 * 24 * 7);
-                $this->__countedRequest[$cookieName] = $count;
-                $count--;
-            }
-        }
-        return $count;
-    }
-
-    public function __initVariables($value)
-    {
-        foreach ($value as $key => $val)
+        foreach ($array as $key => $val)
         {
             # value simply defined
             $this->{$key} = $val;
         }
     }
-
 }

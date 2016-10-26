@@ -51,7 +51,7 @@ before_script:
 
 
 script:
-    - php .travis/traviswebserverckecker.php http://localhost/joomla-cms/installation/index.php # Test apache
+#    - php .travis/traviswebserverckecker.php http://localhost/joomla-cms/installation/index.php # Test apache
     - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
     - "wget http://codeception.com/codecept.phar"
     - php ./codecept.phar build

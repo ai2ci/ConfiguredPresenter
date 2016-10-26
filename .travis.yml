@@ -25,3 +25,7 @@ install: composer update --prefer-source --no-interaction --dev
 
 before_script:
     - phpenv config-rm xdebug.ini || true
+script:
+  - "wget http://codeception.com/codecept.phar"
+  - php ./codecept.phar build
+  - php ./codecept.phar run

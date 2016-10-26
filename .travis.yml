@@ -55,4 +55,4 @@ script:
     - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
     - "wget http://codeception.com/codecept.phar"
     - php ./codecept.phar build
-    - php ./codecept.phar run acceptance
+    - php ./codecept.phar run

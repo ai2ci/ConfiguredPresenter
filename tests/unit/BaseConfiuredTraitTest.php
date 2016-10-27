@@ -1,8 +1,10 @@
 <?php
+
 use ConfiguredPresenters\BaseConfiguredTrait;
 
-class BaseConfiuredTraitTest extends \PHPUnit_Framework_TestCase
+class BaseConfiuredTraitTest extends PHPUnit_Framework_TestCase
 {
+
     use BaseConfiguredTrait;
 
     protected function setUp()
@@ -14,7 +16,7 @@ class BaseConfiuredTraitTest extends \PHPUnit_Framework_TestCase
     {
         
     }
-    
+
     public function testInitSimpleVariable()
     {
         $this->initVariables([
@@ -23,6 +25,7 @@ class BaseConfiuredTraitTest extends \PHPUnit_Framework_TestCase
         $this->isType('string')->evaluate($this->test);
         $this->assertEquals('value', $this->test);
     }
+
     public function testInitArray()
     {
         $this->initVariables([

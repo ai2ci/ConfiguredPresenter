@@ -22,15 +22,16 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
 
     // tests
 
-//    public function testDirectoryExists()
-//    {
-//        $this->assertDirectoryExists(ConfigLoader::CACHE_TEMP);
-//    }
-//
-//    public function testDirectoryWritable()
-//    {
-//        $this->assertDirectoryIsWritable(ConfigLoader::CACHE_TEMP);
-//    }
+    public function testDirectoryExists()
+    {
+        $isDir = is_dir(ConfigLoader::CACHE_TEMP);
+        $this->assertTrue($isDir);
+    }
+
+    public function testDirectoryWritable()
+    {
+        $this->assertIsWritable(ConfigLoader::CACHE_TEMP);
+    }
 
     public function testloadConfig()
     {

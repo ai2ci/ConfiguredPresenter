@@ -1,6 +1,6 @@
 <?php
 
-use ConfiguredPresenters\ConfigLoader;
+use \ConfiguredPresenters\ConfigLoader;
 
 /**
  * test of ConfigParserTest
@@ -34,12 +34,19 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testloadConfig()
+    public function testloadConfigNeon()
     {
-        $file = 'page.neon';
-        touch($file);
+        $file = 'pages.neon';
         $result = ConfigLoader::loadConfig($file);
-        unlink($file);
+//        unlink($file);
         $this->isType('array')->evaluate($result);
+        
+        $this->assertArrayHasKey('Base', $result);
+        $this->assertArrayHasKey('dummyVideoSrc', $result['Base']);
+        $this->assertArrayHasKey('AvoidTest', $result);
+        $this->assertArrayHasKey('default', $result['AvoidTest']);
+        $this->assertArrayHasKey('vtid', $result['AvoidTest']['default']);
+        $this->assertArrayHasKey('video', $result['AvoidTest']);
+        $this->assertArrayHasKey('vtid', $result['AvoidTest']['video']);
     }
 }

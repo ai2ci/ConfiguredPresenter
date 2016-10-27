@@ -40,5 +40,4 @@ class ConfigLoader
         }
         return $confData;
     }
-
 }

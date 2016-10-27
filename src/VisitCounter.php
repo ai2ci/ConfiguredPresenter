@@ -71,5 +71,4 @@ class VisitCounter
         }
         return $count;
     }
-
 }

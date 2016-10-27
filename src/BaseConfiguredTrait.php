@@ -2,13 +2,14 @@
 
 namespace ConfiguredPresenters;
 
-/**
- * Base presenter for all application presenters.
- */
-
+# constants
 const BASE_CONFIGURED_SECTION = 'Base';
 const BEEN_HERE_CONFIGURED_SECTION = 'onBeenHere';
-const TEMPLATE_SECTION = 'onBeenHere';
+const TEMPLATE_SECTION = 'template';
+
+/**
+ * Base trait for all application presenters which are configured
+ */
 trait BaseConfiguredTrait
 {
     /** @var array class variable source */
@@ -22,11 +23,19 @@ trait BaseConfiguredTrait
         parent::__construct();
     }
 
+    /**
+     * return used name of this instance
+     * @return string
+     */
     public function getConfName()
     {
         return $this->getName();
     }
 
+    /**
+     * return used action of this instance
+     * @return string
+     */
     public function getConfAction()
     {
         return $this->getAction();
@@ -40,7 +49,7 @@ trait BaseConfiguredTrait
         $action = $this->getConfAction();
         $config = ConfigLoader::loadConfig();
         $counter = new VisitCounter($name, $action);
-        
+
         # import base configuration
         $this->initVariables($config[BASE_CONFIGURED_SECTION]);
         # import current action configuration
@@ -56,9 +65,7 @@ trait BaseConfiguredTrait
         switch ($name) {
             case TEMPLATE_SECTION:
             case BEEN_HERE_CONFIGURED_SECTION:
-
                 return parent::__get($name);
-
             default:
                 if (!property_exists($this, $name)) {
                     return $this->__data[$name];
@@ -74,11 +81,13 @@ trait BaseConfiguredTrait
         $this->__data[$name] = $value;
     }
 
-
+    /**
+     * add variables as object properties
+     * @param array $array
+     */
     public function initVariables($array)
     {
-        foreach ($array as $key => $val)
-        {
+        foreach ($array as $key => $val) {
             # value simply defined
             $this->{$key} = $val;
         }

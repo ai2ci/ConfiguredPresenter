@@ -12,5 +12,4 @@ class BaseConfiuredTraitTest extends \PHPUnit_Framework_TestCase
     {
         
     }
-
 }

@@ -42,5 +42,4 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
         unlink($file);
         $this->isType('array')->evaluate($result);
     }
-
 }

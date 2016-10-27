@@ -24,10 +24,14 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testDirectoryWritable()
     {
-        $isDir = is_dir(ConfigLoader::CACHE_TEMP);
-        $this->assertTrue($isDir);
-        $isWritable = is_writable(ConfigLoader::CACHE_TEMP);
-        $this->assertTrue($isWritable);
+        if (method_exists($this, 'assertDirectoryIsWritable')) {
+            $this->assertDirectoryIsWritable(ConfigLoader::CACHE_TEMP);
+        } else {
+            $isDir = is_dir(ConfigLoader::CACHE_TEMP);
+            $this->assertTrue($isDir);
+            $isWritable = is_writable(ConfigLoader::CACHE_TEMP);
+            $this->assertTrue($isWritable);
+        }
     }
 
     public function testloadConfig()

@@ -9,6 +9,7 @@ namespace Counter;
  */
 class VisitCounter
 {
+    const BEEN_HERE = 'beenHere';
     /** @var string */
     protected $cookieName;
 
@@ -49,7 +50,7 @@ class VisitCounter
     public function countOfBeenHere($cookieName = null)
     {
         $count = 0;
-        $beenHere = @$_GET['beenHere'];
+        $beenHere = filter_input(INPUT_GET, self::BEEN_HERE);
         # forced from URL
         if (isset($beenHere)) {
             $count = intval($beenHere);

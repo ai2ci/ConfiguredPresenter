@@ -2,7 +2,7 @@
 
 namespace ConfiguredPresenters;
 
-use CookieCounter\VisitCounter;
+use ConfiguredPresenters\CookieCounter\VisitCounter;
 
 # constants
 const BASE_CONFIGURED_SECTION = 'Base';

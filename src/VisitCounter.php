@@ -1,6 +1,6 @@
 <?php
 
-namespace CookieCounter;
+namespace ConfiguredPresenters\CookieCounter;
 
 /**
  * Base class VisitCounter is aimed to counting of visits in calling cookies 

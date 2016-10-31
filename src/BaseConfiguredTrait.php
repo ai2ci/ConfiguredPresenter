@@ -15,14 +15,6 @@ trait BaseConfiguredTrait
     /** @var array class variable source */
     public $__data = [];
 
-    /** @var array */
-    public $__countedRequest = [];
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * return used name of this instance
      * @return string
@@ -40,13 +32,14 @@ trait BaseConfiguredTrait
     {
         return $this->getAction();
     }
-
-    public function startup()
+    
+    /**
+     * init work
+     * @param string $name
+     * @param string $action
+     */
+    public function init($name, $action)
     {
-        parent::startup();
-        #init local variables
-        $name = $this->getConfName();
-        $action = $this->getConfAction();
         $config = ConfigLoader::loadConfig();
         $counter = new VisitCounter($name, $action);
 
@@ -60,6 +53,23 @@ trait BaseConfiguredTrait
         }
     }
 
+    /**
+     * add variables as object properties
+     * @param array $array
+     */
+    public function initVariables($array)
+    {
+        foreach ($array as $key => $val) {
+            # value simply defined
+            $this->{$key} = $val;
+        }
+    }
+
+    /**
+     * magic function read accessing of object's atributes
+     * @param string $name
+     * @return mixin
+     */
     public function &__get($name)
     {
         switch ($name) {
@@ -75,21 +85,13 @@ trait BaseConfiguredTrait
                 break;
         }
     }
-
+    /**
+     * magic function to writ accessing of access object's atributes
+     * @param string $name
+     * @param mixin $value
+     */
     public function __set($name, $value)
     {
         $this->__data[$name] = $value;
-    }
-
-    /**
-     * add variables as object properties
-     * @param array $array
-     */
-    public function initVariables($array)
-    {
-        foreach ($array as $key => $val) {
-            # value simply defined
-            $this->{$key} = $val;
-        }
     }
 }

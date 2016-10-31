@@ -54,7 +54,9 @@ class VisitCounter
         # forced from URL
         if (isset($beenHere)) {
             $count = intval($beenHere);
-        } else { # normally from cookie
+        }
+        # normally from cookie
+        else { 
             $cookieName = $this->getCookieName($cookieName);
 
             # if has been set then directly get value

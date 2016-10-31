@@ -1,6 +1,6 @@
 <?php
 
-namespace Counter;
+namespace CookieCounter;
 
 /**
  * Base class VisitCounter is aimed to counting of visits in calling cookies 
@@ -63,9 +63,9 @@ class VisitCounter
             }
             # inrease value
             else {
-                $count = $this->getHttpRequest()->getCookie($cookieName) ?: 0;
+                $count = filter_input(INPUT_COOKIE, $cookieName) ?: 0;
                 $count++;
-                $this->getHttpResponse()->setCookie($cookieName, $count, time() + 3600 * 24 * 7);
+                setcookie($cookieName, $count, time() + 3600 * 24 * 7);
                 $this->requestCounter[$cookieName] = $count;
                 $count--;
             }

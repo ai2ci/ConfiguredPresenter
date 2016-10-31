@@ -1,6 +1,7 @@
 <?php
 
 use ConfiguredPresenters\BaseConfiguredTrait;
+use ConfiguredPresenters\ConfigLoader;
 
 class BaseConfiuredTraitTest extends PHPUnit_Framework_TestCase
 {
@@ -17,6 +18,13 @@ class BaseConfiuredTraitTest extends PHPUnit_Framework_TestCase
         
     }
 
+    public function testInit()
+    {
+        $config = ConfigLoader::loadConfig('pages.latte');
+        $this->setConfig($config);
+        $this->init('AvoidTest', 'default');
+    }
+    
     public function testInitSimpleVariable()
     {
         $this->initVariables([

@@ -2,6 +2,8 @@
 
 namespace ConfiguredPresenters;
 
+use CookieCounter\VisitCounter;
+
 # constants
 const BASE_CONFIGURED_SECTION = 'Base';
 const BEEN_HERE_CONFIGURED_SECTION = 'onBeenHere';
@@ -13,26 +15,14 @@ const TEMPLATE_SECTION = 'template';
 trait BaseConfiguredTrait
 {
     /** @var array class variable source */
-    public $__data = [];
+    private $data = [];
+    /** @var array cofiguration */
+    private $config = null;
 
-    /**
-     * return used name of this instance
-     * @return string
-     */
-    public function getConfName()
+    function setConfig($config)
     {
-        return $this->getName();
-    }
-
-    /**
-     * return used action of this instance
-     * @return string
-     */
-    public function getConfAction()
-    {
-        return $this->getAction();
-    }
-    
+        $this->config = $config;
+    }    
     /**
      * init work
      * @param string $name
@@ -40,16 +30,15 @@ trait BaseConfiguredTrait
      */
     public function init($name, $action)
     {
-        $config = ConfigLoader::loadConfig();
         $counter = new VisitCounter($name, $action);
 
         # import base configuration
-        $this->initVariables($config[BASE_CONFIGURED_SECTION]);
+        $this->initVariables($this->config[BASE_CONFIGURED_SECTION]);
         # import current action configuration
-        $this->initVariables($config[$name][$action]);
+        $this->initVariables($this->config[$name][$action]);
         # import beenHere current action configuration 
         if ($counter->countOfBeenHere() > 0) {
-            $this->initVariables($config[$name][$action][BEEN_HERE_CONFIGURED_SECTION]);
+            $this->initVariables($this->config[$name][$action][BEEN_HERE_CONFIGURED_SECTION]);
         }
     }
 
@@ -78,7 +67,7 @@ trait BaseConfiguredTrait
                 return parent::__get($name);
             default:
                 if (!property_exists($this, $name)) {
-                    return $this->__data[$name];
+                    return $this->data[$name];
                 } else {
                     return parent::__get($name);
                 }
@@ -92,6 +81,6 @@ trait BaseConfiguredTrait
      */
     public function __set($name, $value)
     {
-        $this->__data[$name] = $value;
+        $this->data[$name] = $value;
     }
 }

@@ -1,0 +1,32 @@
+# global variables
+Base:
+    dummyVideoSrc: 'https://s3.amazonaws.com/v-taper/VTaper-VSL-7.m4v'
+    dummyVideoSrcYouTube: 'https://www.youtube.com/embed/jWW2TFPqGA8?rel=0&amp;controls=0&amp;showinfo=0'
+    videoThumbnail: 'http://vtapersolution.com/theme/img/video-thumb/video-thumb-desktop.jpg'
+# page avoid
+AvoidTest: 
+    default:
+        videoSource: "https://s3.amazonaws.com/v-taper/VTaper-VSL-2.m4v"
+        videoSourceYouTube: "https://www.youtube.com/embed/n9G3Z-kcQg4?rel=0&amp;controls=0&amp;showinfo=0"
+        autoload: true
+        productId: "dmvts-2"
+        vtid: "mustavoid"
+        defaultVTID: "vtsavoid"
+        firstTiming: 998000 # 16:38
+        secondTiming: 1267000 # 21:07
+        template: [layout-none-responsive, noneresponsive-mobile]
+        onBeenHere:
+            videoSource < Base.dummyVideoSrc:
+            videoSourceYouTube < Base.dummyVideoSrcYouTube:
+            videoThumbnail < Base.videoThumbnail:
+            autoload: false
+            firstTiming: Timer(0,0) # 00:00
+            secondTiming: Timer(0,0) # 00:00
+    video < AvoidTest.default:
+        videoSource : "https://s3.amazonaws.com/v-taper/VTaper-VSL-10.m4v"
+        videoSourceYouTube : "https://www.youtube.com/embed/ovPqJu1VhxA?rel=0&amp;controls=0&amp;showinfo=0"
+        firstTiming : 1078000 # 16:38
+        secondTiming : 1346000 # 21:07
+AvoidNew < AvoidTest:
+
+

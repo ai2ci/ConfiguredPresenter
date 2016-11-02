@@ -1,5 +1,6 @@
-nbproject/
-nbproject/private/
-vendor/
-tests/_output/*
-temp/*
+/nbproject/
+/nbproject/private/
+/vendor/
+/tests/_output/*
+/temp/*
+!/temp/.gitignore

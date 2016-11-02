@@ -25,17 +25,9 @@ class BaseConfiuredTraitTest extends PHPUnit_Framework_TestCase
         
     }
 
-    public function testInit2()
-    {
-        
-        $config = ConfigLoader::loadConfig('/aapages.latte');
-        $this->instance->setConfig($config);
-        $this->instance->init('AvoidTest', 'default');
-        $this->assertEquals('mustavoid', $this->instance->vtid);
-    }
     public function testInit()
     {
-        $config = ConfigLoader::loadConfig(__DIR__ . '/_data/pages.latte');
+        $config = ConfigLoader::loadConfig(__DIR__ . '/../_data/pages.neon');
         $this->instance->setConfig($config);
         $this->instance->init('AvoidTest', 'default');
         $this->assertEquals('mustavoid', $this->instance->vtid);

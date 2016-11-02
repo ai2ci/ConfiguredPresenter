@@ -36,7 +36,7 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testloadConfigNeon()
     {
-        $file = 'pages.neon';
+        $file = __DIR__ . '/../_data/pages.neon';
         $result = ConfigLoader::loadConfig($file);
 //        unlink($file);
         $this->isType('array')->evaluate($result);

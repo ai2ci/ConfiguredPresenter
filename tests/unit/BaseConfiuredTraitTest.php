@@ -3,14 +3,21 @@
 use ConfiguredPresenters\BaseConfiguredTrait;
 use ConfiguredPresenters\ConfigLoader;
 
+
+
+class Testing{ 
+    use BaseConfiguredTrait; 
+
+}
+
 class BaseConfiuredTraitTest extends PHPUnit_Framework_TestCase
 {
-
-    use BaseConfiguredTrait;
+    protected $instance;
 
     protected function setUp()
     {
         
+        $this->instance =  new Testing();
     }
 
     protected function tearDown()
@@ -18,36 +25,44 @@ class BaseConfiuredTraitTest extends PHPUnit_Framework_TestCase
         
     }
 
+    public function testInit2()
+    {
+        
+        $config = ConfigLoader::loadConfig('/aapages.latte');
+        $this->instance->setConfig($config);
+        $this->instance->init('AvoidTest', 'default');
+        $this->assertEquals('mustavoid', $this->instance->vtid);
+    }
     public function testInit()
     {
         $config = ConfigLoader::loadConfig(__DIR__ . '/_data/pages.latte');
-        $this->setConfig($config);
-        $this->init('AvoidTest', 'default');
-        $this->assertEquals('mustavoid', $this->vtid);
+        $this->instance->setConfig($config);
+        $this->instance->init('AvoidTest', 'default');
+        $this->assertEquals('mustavoid', $this->instance->vtid);
     }
     
     public function testInitSimpleVariable()
     {
-        $this->initVariables([
+        $this->instance->initVariables([
             'test' => 'value'
         ]);
-        $this->isType('string')->evaluate($this->test);
-        $this->assertEquals('value', $this->test);
+        $this->isType('string')->evaluate($this->instance->test);
+        $this->assertEquals('value', $this->instance->test);
     }
 
     public function testInitArray()
     {
-        $this->initVariables([
+        $this->instance->initVariables([
             'test' => 'value',
             'testArray' => [],
             'testInteger' => 123,
             'testNull' => null,
             'template' => null,
         ]);
-        $this->isType('string')->evaluate($this->test);
-        $this->isType('array')->evaluate($this->testArray);
-        $this->isType('int')->evaluate($this->testInteger);
-        $this->isNull()->evaluate($this->testNull);
-        $this->assertObjectNotHasAttribute('template', $this);
+        $this->isType('string')->evaluate($this->instance->test);
+        $this->isType('array')->evaluate($this->instance->testArray);
+        $this->isType('int')->evaluate($this->instance->testInteger);
+        $this->isNull()->evaluate($this->instance->testNull);
+        $this->assertObjectNotHasAttribute('template', $this->instance);
     }
 }

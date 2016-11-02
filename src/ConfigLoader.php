@@ -30,13 +30,13 @@ class ConfigLoader
         $storage = new FileStorage($cacheDirectory);
         $cache = new Cache($storage);
 
-        $confData = $cache->load(static::CACHE_NAME);
+        $confData = $cache->load(static::CACHE_NAME . $path);
         if ($confData === null) {
             $loader = new Loader();
             $confData = $loader->load($path);
             # resolve inheritance etc ...
             ConfigParser::recursiveResolve($confData, $confData);
-            $cache->save(static::CACHE_NAME, $confData);
+            $cache->save(static::CACHE_NAME . $path, $confData);
         }
         return $confData;
     }

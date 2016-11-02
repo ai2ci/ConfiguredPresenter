@@ -24,6 +24,7 @@ before_install:
 install: composer update --prefer-source --no-interaction --dev
 
 before_script:
+    - rm temp/* 
     - phpenv config-rm xdebug.ini || true
     # Install Apache
 #    - sudo apt-get update -qq

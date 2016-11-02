@@ -20,9 +20,10 @@ class BaseConfiuredTraitTest extends PHPUnit_Framework_TestCase
 
     public function testInit()
     {
-        $config = ConfigLoader::loadConfig('pages.latte');
+        $config = ConfigLoader::loadConfig(__DIR__ . '/_data/pages.latte');
         $this->setConfig($config);
         $this->init('AvoidTest', 'default');
+        $this->assertEquals('mustavoid', $this->vtid);
     }
     
     public function testInitSimpleVariable()
